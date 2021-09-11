@@ -25,6 +25,14 @@ class App extends Component {
             number: data.number,
         };
 
+        // Проверка на дублирование имени
+        const doubleContact = this.state.contacts.find(contact => contact.name.toLowerCase() === data.name.toLowerCase());
+        
+        if (doubleContact) {
+            alert(`${data.name} is alredy in contacts.`);
+            return;
+        };
+
         // this.setState(prevState => ({
         //     contacts: [contact, ...prevState.contacts]
         // }));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
+import Filter from './Filter';
 
 class App extends Component {
     state = {
@@ -11,29 +12,13 @@ class App extends Component {
             {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
             {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
         ],
+        filter: ''
     }
-
-    // handleInputChange = event => {
-    //     const { name, value } = event.currentTarget;
-    //     console.log(value);
-    //     console.log(name);
-    //     // this.setState({ name: event.currentTarget.value })
-    //     // Вычисляемые свойства
-    //     this.setState({
-    //         [name]: value,
-    //     })
-    // }
-
-    // handleSubmit = event => {
-    //     event.preventDefault();
-    //     console.log(this.state);
-    // }
 
     formSubmitHandler = data => {
         console.log(data);
 
         // Добавление контакта
-
         const contact = {
             id: uuidv4(),
             name: data.name,
@@ -45,18 +30,33 @@ class App extends Component {
         // }));
 
         // Деструктуризация
-        this.setState(({contacts  }) => ({
+        this.setState(({ contacts }) => ({
             contacts: [contact, ...contacts]
         }));
-    }
+    };
+
+    changeFilter = event => {
+        this.setState({filter: event.currentTarget.value});
+    };
+
+    getVisibleContacts = () => {
+        const normalizedFilter = this.state.filter.toLowerCase();
+        return this.state.contacts.filter(contact =>
+            contact.name.toLowerCase().includes(normalizedFilter),
+        );
+    };
 
     render() {
+
+        const visibleContacts = this.getVisibleContacts();
+
         return (
             <div>
             <h1>Phonebook</h1>
             <ContactForm onSubmit={this.formSubmitHandler}></ContactForm>
             <h2>Contacts</h2>
-            <ContactList contacts={this.state.contacts}></ContactList>
+            <Filter value={this.state.filter} onChange={this.changeFilter}></Filter>
+            <ContactList contacts={visibleContacts}></ContactList>
             </div>
         )
     }

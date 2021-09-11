@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
+import Container from './Container';
 import Filter from './Filter';
 
 class App extends Component {
@@ -65,7 +66,7 @@ class App extends Component {
         const visibleContacts = this.getVisibleContacts();
 
         return (
-            <div>
+            <Container>
             <h1>Phonebook</h1>
             <ContactForm onSubmit={this.formSubmitHandler}></ContactForm>
             <h2>Contacts</h2>
@@ -74,7 +75,7 @@ class App extends Component {
             contacts={visibleContacts}
             onDeleteContact={this.deleteContact}
             ></ContactList>
-            </div>
+            </Container>
         )
     }
 };

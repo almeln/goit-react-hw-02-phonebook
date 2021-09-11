@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 
@@ -30,6 +31,23 @@ class App extends Component {
 
     formSubmitHandler = data => {
         console.log(data);
+
+        // Добавление контакта
+
+        const contact = {
+            id: uuidv4(),
+            name: data.name,
+            number: data.number,
+        };
+
+        // this.setState(prevState => ({
+        //     contacts: [contact, ...prevState.contacts]
+        // }));
+
+        // Деструктуризация
+        this.setState(({contacts  }) => ({
+            contacts: [contact, ...contacts]
+        }));
     }
 
     render() {
